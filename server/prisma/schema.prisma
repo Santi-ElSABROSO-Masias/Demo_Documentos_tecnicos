@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model DocumentoInventario {
+  id          String   @id @default(uuid())
+  sede        String
+  fecha       String
+  motivo      String
+  referencia  String
+  createdAt   DateTime @default(now())
+  equipos     EquipoInventario[]
+}
+
+model EquipoInventario {
+  id           String             @id @default(uuid())
+  item         Int
+  serie        String
+  descripcion  String
+  ubicacion    String
+  estado       String
+  observacion  String
+  documentoId  String
+  documento    DocumentoInventario @relation(fields: [documentoId], references: [id], onDelete: Cascade)
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Generador de Actas de Inventario",
+  "description": "Sistema full-stack para capturar datos de inventario y generar un acta de control en formato de Word (.docx) personalizable.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
