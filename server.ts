@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
@@ -6,7 +7,7 @@ import { DocumentController } from "./server/controllers/document.controller.ts"
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = 3001;
 
   // JSON configuration and payload parser limits (supporting bulk inventories)
   app.use(express.json({ limit: "10mb" }));
