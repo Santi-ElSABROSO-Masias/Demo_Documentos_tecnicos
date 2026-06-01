@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: acta-generator-backend
+    restart: unless-stopped
+    # NOTA PARA DESARROLLO LOCAL: Se lee el archivo .env local.
+    # ADVERTENCIA PARA PRODUCCIÓN (EASYPANEL): No uses env_file. Las variables
+    # de entorno se configuran directamente en el panel de control de Easypanel 
+    # dentro de la sección "Environment Variables" de cada servicio para evitar
+    # comprometer secretos en el repositorio Git.
+    env_file:
+      - ./backend/.env
+    volumes:
+      # Volumen nombrado para las plantillas .docx.
+      # Esto te permite subir y rotar los templates de Word directamente en el
+      # volumen persistente en el VPS sin necesidad de volver a compilar el contenedor.
+      - docx_templates:/app/resources
+    networks:
+      - internal-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Argumento en tiempo de compilación. En desarrollo local apunta al backend local.
+        # En producción con Easypanel, se configura como ARGUMENTO DE COMPILACIÓN (VITE_API_URL=http://IP_DEL_VPS/api)
+        - VITE_API_URL=http://localhost:3001
+    container_name: acta-generator-frontend
+    restart: unless-stopped
+    ports:
+      # Único puerto expuesto hacia el exterior
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - internal-net
+
+volumes:
+  docx_templates:
+    name: docx_templates_volume
+
+networks:
+  internal-net:
+    driver: bridge

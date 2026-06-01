@@ -1,8 +1,32 @@
+# Variables de entorno — NUNCA subir al repositorio
+.env
+.env.local
+.env.production
+.env.*.local
+backend/.env
+backend/.env.local
+backend/.env.production
+backend/.env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/.env.*.local
+
+# Dependencias
 node_modules/
-build/
+backend/node_modules/
+frontend/node_modules/
+
+# Build outputs
 dist/
-coverage/
-.DS_Store
+build/
+backend/dist/
+frontend/dist/
+
+# Logs
 *.log
-.env*
-!.env.example
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
