@@ -60,7 +60,7 @@ const DEMO_INVENTARIO_ROWS: EquipmentRow[] = [
     serie: "SN-934892",
     descripcion: "Impresora HP LaserJet Pro M404dw",
     ubicacion: "CONTABILIDAD",
-    estado: "MANTENIMIENTO" as any, // mapping to required option format
+    estado: "INOPERATIVO", // mapping to required option format
     observacion: "Lubricación de bandejas de papel realizada",
   },
   {
@@ -77,6 +77,9 @@ export default function App() {
   // Primary Navigation State
   // null = Selector Home; 1 = Inventario General; 2 = Laptop; 3 = Desktop
   const [selectedDoc, setSelectedDoc] = useState<number | null>(null);
+  
+  // Navigation back confirmation modal state
+  const [showBackModal, setShowBackModal] = useState(false);
 
   // Loading & Global Notifications
   const [isGenerating, setIsGenerating] = useState(false);
@@ -168,7 +171,7 @@ export default function App() {
           serie: eq.serie.trim(),
           descripcion: eq.descripcion.trim(),
           ubicacion: eq.ubicacion.trim() || "S/D",
-          estado: eq.estado === ("MANTENIMIENTO" as any) ? "INOPERATIVO" : eq.estado, // map to required types if mismatch
+          estado: eq.estado,
           observacion: eq.observacion.trim() || "NINGUNA"
         }))
       };
@@ -383,13 +386,66 @@ export default function App() {
   };
 
 
+  // ==========================================
+  // UNSAVED DATA CHECK & NATIVE MODAL NAVEGATION
+  // ==========================================
+  const hasUnsavedData = (): boolean => {
+    if (selectedDoc === 1) {
+      if (sede1 !== "CHIMBOTE") return true;
+      if (motivo1 !== "Inventario General de Control") return true;
+      if (referencia1 !== "CONTRATO N° 004-2023-CMAC-T") return true;
+      if (equipos.length !== 2) return true;
+      if (equipos[0]?.serie !== "MJ0K94MC" || equipos[0]?.descripcion !== "ThinkCentre M80s Gen 3") return true;
+      if (equipos[1]?.serie !== "VYF37391" || equipos[1]?.descripcion !== "ThinkVision E22-28") return true;
+    }
+    if (selectedDoc === 2) {
+      if (sede2 !== "TRUJILLO PRINCIPAL") return true;
+      if (area2 !== "RECURSOS HUMANOS") return true;
+      if (usuario2 !== "JUAN PEREZ SALINAS") return true;
+      if (motivo2 !== "Mantenimiento Preventivo") return true;
+      if (referencia2 !== "CONTRATO N° 004-2023-CMAC-T") return true;
+      if (laptopModelo !== "Lenovo ThinkPad L14 Gen 4") return true;
+      if (laptopSerie !== "PF4JK92B") return true;
+      if (laptopHostname !== "LAP-RRHH-02") return true;
+    }
+    if (selectedDoc === 3) {
+      if (sede3 !== "TRUJILLO SEDE ALTO") return true;
+      if (area3 !== "FINANZAS") return true;
+      if (usuario3 !== "ESPERANZA GOMEZ VEGA") return true;
+      if (motivo3 !== "Mantenimiento Preventivo") return true;
+      if (referencia3 !== "CONTRATO N° 004-2023-CMAC-T") return true;
+      if (cpuModelo !== "ThinkCentre M70s Intel Core i5") return true;
+      if (cpuSerie !== "S4KP329F") return true;
+      if (cpuHostname !== "PC-FIN-08") return true;
+      if (monitorMarca !== "LENOVO") return true;
+      if (monitorModelo !== "ThinkVision E22-28") return true;
+      if (monitorSerie !== "VYF37391") return true;
+      if (tecladoMarca !== "LENOVO") return true;
+      if (tecladoModelo !== "Preferred Pro II USB") return true;
+      if (tecladoSerie !== "SN-KEY-8832") return true;
+      if (mouseMarca !== "LENOVO") return true;
+      if (mouseModelo !== "USB Optical Mouse") return true;
+      if (mouseSerie !== "SN-MSE-1132") return true;
+    }
+    return false;
+  };
+
+  const handleBack = () => {
+    if (hasUnsavedData()) {
+      setShowBackModal(true);
+    } else {
+      setSelectedDoc(null);
+    }
+  };
+
+
   return (
     <div className="min-h-screen bg-[#09090b] text-[#f8fafc] font-sans antialiased pb-20 selection:bg-[#14b8a6] selection:text-[#042f2e]">
       {/* Soft gradient banner */}
       <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-[#14b8a6]/5 via-[#14b8a6]/2 to-transparent pointer-events-none" />
 
       {/* Main Header */}
-      <header className="relative max-w-7xl mx-auto px-4 pt-12 pb-8 sm:px-6 lg:px-8 border-b border-[#27272a]/50">
+      <header className="relative max-w-7xl mx-auto px-4 pt-6 pb-4 sm:pt-12 sm:pb-8 sm:px-6 lg:px-8 border-b border-[#27272a]/50">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-11 h-11 bg-gradient-to-br from-[#14b8a6] to-[#0d9488] rounded-xl shrink-0 flex items-center justify-center text-[#042f2e] shadow-lg shadow-[#14b8a6]/20 font-bold border border-[#2dd4bf]/20">
@@ -402,7 +458,7 @@ export default function App() {
                 </span>
                 <span className="text-[10px] text-zinc-500 font-mono">CMAC TRUJILLO v3.0</span>
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f1f5f9] mt-0.5">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#f1f5f9] mt-0.5 leading-tight">
                 Generador de Actas Técnicas
               </h1>
               <p className="text-zinc-400 text-xs sm:text-sm mt-0.5 max-w-2xl">
@@ -488,12 +544,12 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Document Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Document Cards Grid - Responsive columns */}
+              <div className="flex flex-col md:grid md:grid-cols-3 gap-6">
                 {/* Type 1: Inventario General */}
                 <button
                   onClick={() => setSelectedDoc(1)}
-                  className="bg-[#18181b] border border-[#27272a] hover:border-[#14b8a6] hover:shadow-[#14b8a6]/5 hover:shadow-xl rounded-xl p-6 text-left group transition-all duration-300 flex flex-col justify-between h-64 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+                  className="bg-[#18181b] border border-[#27272a] hover:border-[#14b8a6] hover:shadow-[#14b8a6]/5 hover:shadow-xl rounded-xl p-6 text-left group transition-all duration-300 flex flex-col justify-between h-64 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#14b8a6] w-full"
                 >
                   <div className="w-12 h-12 bg-zinc-900 rounded-lg group-hover:bg-[#14b8a6]/10 text-zinc-400 group-hover:text-[#14b8a6] flex items-center justify-center transition border border-[#27272a] group-hover:border-[#14b8a6]/20">
                     <Layers className="w-5.5 h-5.5" />
@@ -514,7 +570,7 @@ export default function App() {
                 {/* Type 2: Laptop Maintenance */}
                 <button
                   onClick={() => setSelectedDoc(2)}
-                  className="bg-[#18181b] border border-[#27272a] hover:border-[#14b8a6] hover:shadow-[#14b8a6]/5 hover:shadow-xl rounded-xl p-6 text-left group transition-all duration-300 flex flex-col justify-between h-64 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+                  className="bg-[#18181b] border border-[#27272a] hover:border-[#14b8a6] hover:shadow-[#14b8a6]/5 hover:shadow-xl rounded-xl p-6 text-left group transition-all duration-300 flex flex-col justify-between h-64 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#14b8a6] w-full"
                 >
                   <div className="w-12 h-12 bg-zinc-900 rounded-lg group-hover:bg-[#14b8a6]/10 text-zinc-400 group-hover:text-[#14b8a6] flex items-center justify-center transition border border-[#27272a] group-hover:border-[#14b8a6]/20">
                     <Laptop className="w-5.5 h-5.5" />
@@ -535,7 +591,7 @@ export default function App() {
                 {/* Type 3: Desktop Maintenance */}
                 <button
                   onClick={() => setSelectedDoc(3)}
-                  className="bg-[#18181b] border border-[#27272a] hover:border-[#14b8a6] hover:shadow-[#14b8a6]/5 hover:shadow-xl rounded-xl p-6 text-left group transition-all duration-300 flex flex-col justify-between h-64 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#14b8a6]"
+                  className="bg-[#18181b] border border-[#27272a] hover:border-[#14b8a6] hover:shadow-[#14b8a6]/5 hover:shadow-xl rounded-xl p-6 text-left group transition-all duration-300 flex flex-col justify-between h-64 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#14b8a6] w-full"
                 >
                   <div className="w-12 h-12 bg-zinc-900 rounded-lg group-hover:bg-[#14b8a6]/10 text-zinc-400 group-hover:text-[#14b8a6] flex items-center justify-center transition border border-[#27272a] group-hover:border-[#14b8a6]/20">
                     <Monitor className="w-5.5 h-5.5" />
@@ -555,9 +611,9 @@ export default function App() {
               </div>
 
               {/* Informative Grid */}
-              <div className="bg-[#18181b]/40 rounded-xl border border-[#27272a]/60 p-6 flex items-center gap-4">
+              <div className="bg-[#18181b]/40 rounded-xl border border-[#27272a]/60 p-6 flex flex-col sm:flex-row items-center gap-4">
                 <Settings className="w-6 h-6 text-[#14b8a6] shrink-0" />
-                <div className="text-xs text-zinc-400 leading-relaxed">
+                <div className="text-xs text-zinc-400 leading-relaxed text-center sm:text-left">
                   <span className="font-bold text-zinc-200 block mb-1">Nota del Administrador TI:</span>
                   Todas las plantillas .docx generadas siguen exactamente el formato legal de CMAC TRUJILLO. El servidor utiliza el compilador seguro PizZip para estructurar los esquemas XML e inyectar sus parámetros variables.
                 </div>
@@ -575,20 +631,11 @@ export default function App() {
               transition={{ duration: 0.22 }}
               className="space-y-6"
             >
-              {/* Back navigation & form indicator */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-[#27272a]/40 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setSelectedDoc(null)}
-                  className="flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-teal-400 transition cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>← Volver al Selector Principal</span>
-                </button>
-
+              {/* Form header details indicator */}
+              <div className="flex items-center justify-between pb-2 border-b border-[#27272a]/40">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#14b8a6]" />
-                  <span className="text-xs text-zinc-400 font-bold uppercase tracking-wider">
+                  <div className="w-2 h-2 rounded-full bg-[#14b8a6]" />
+                  <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
                     {selectedDoc === 1 && "Inventario General de Bienes"}
                     {selectedDoc === 2 && "Mantenimiento Preventivo (Laptop)"}
                     {selectedDoc === 3 && "Mantenimiento Preventivo (Desktop)"}
@@ -612,6 +659,7 @@ export default function App() {
                   isGenerating={isGenerating}
                   onGenerate={handleGenerateInventario}
                   onLoadDemo={handleLoadDemoInventario}
+                  onBack={handleBack}
                 />
               )}
 
@@ -638,6 +686,7 @@ export default function App() {
                   isGenerating={isGenerating}
                   onGenerate={handleGenerateLaptop}
                   onLoadDemo={handleLoadDemoLaptop}
+                  onBack={handleBack}
                 />
               )}
 
@@ -682,6 +731,7 @@ export default function App() {
                   isGenerating={isGenerating}
                   onGenerate={handleGenerateDesktop}
                   onLoadDemo={handleLoadDemoDesktop}
+                  onBack={handleBack}
                 />
               )}
             </motion.div>
@@ -694,6 +744,49 @@ export default function App() {
           <div className="mt-1 font-mono text-[10px]">Soporte TI — Generador XML de Plantillas Estructuradas</div>
         </footer>
       </main>
+
+      {/* Confirmation Modal overlay (Glassmorphism design) */}
+      <AnimatePresence>
+        {showBackModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-[#1c1c1e] border border-[#27272a] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4"
+            >
+              <div className="flex items-center gap-3 text-amber-500">
+                <AlertTriangle className="w-6 h-6 shrink-0" />
+                <h3 className="text-lg font-bold text-zinc-100">¿Deseas salir del formulario?</h3>
+              </div>
+              
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                ¿Seguro que deseas volver? Los datos no guardados se perderán.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2 w-full">
+                <button
+                  type="button"
+                  onClick={() => setShowBackModal(false)}
+                  className="px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-zinc-400 bg-zinc-900 border border-zinc-800 rounded-lg hover:text-zinc-200 transition cursor-pointer min-h-[44px] w-full sm:w-auto"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowBackModal(false);
+                    setSelectedDoc(null);
+                  }}
+                  className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-zinc-950 bg-[#14b8a6] hover:bg-teal-400 rounded-lg transition cursor-pointer min-h-[44px] w-full sm:w-auto"
+                >
+                  Sí, volver
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

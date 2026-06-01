@@ -10,7 +10,8 @@ import {
   Download, 
   RefreshCw,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  ArrowLeft
 } from "lucide-react";
 
 interface MantLaptopFormProps {
@@ -35,6 +36,7 @@ interface MantLaptopFormProps {
   isGenerating: boolean;
   onGenerate: (e: React.FormEvent) => void;
   onLoadDemo: () => void;
+  onBack: () => void;
 }
 
 export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
@@ -59,15 +61,25 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
   isGenerating,
   onGenerate,
   onLoadDemo,
+  onBack,
 }) => {
   return (
     <div className="space-y-6">
-      {/* Action utilities bar */}
-      <div className="flex justify-end">
+      {/* Volver button and Action utilities bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 border-b border-[#27272a]/40 pb-4">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex items-center gap-2 text-sm font-semibold text-zinc-400 hover:text-[#14b8a6] transition cursor-pointer min-h-[44px] px-3 -ml-3 rounded-lg hover:bg-zinc-900/40 w-full sm:w-auto"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Volver al Selector</span>
+        </button>
+        
         <button
           type="button"
           onClick={onLoadDemo}
-          className="text-xs text-teal-400 hover:text-teal-300 font-semibold px-3 py-1.5 bg-[#14b8a6]/5 rounded border border-[#14b8a6]/20 transition flex items-center gap-1 cursor-pointer"
+          className="text-xs text-teal-400 hover:text-teal-300 font-semibold px-3 py-1.5 bg-[#14b8a6]/5 rounded border border-[#14b8a6]/20 transition flex items-center justify-center gap-1 cursor-pointer min-h-[44px] sm:min-h-0 w-full sm:w-auto"
         >
           Cargar Datos Demo de Laptop
         </button>
@@ -93,7 +105,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                 value={sede}
                 onChange={(e) => setSede(e.target.value)}
                 placeholder="Ej. TRUJILLO CENTRAL"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -107,7 +119,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                 required
                 value={fecha}
                 onChange={(e) => setFecha(e.target.value)}
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
               />
             </div>
 
@@ -122,7 +134,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
                 placeholder="Ej. RECURSOS HUMANOS, OPERACIONES..."
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -137,7 +149,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
                 placeholder="Ej. JUAN PEREZ RUIZ"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -152,7 +164,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                 value={motivo}
                 onChange={(e) => setMotivo(e.target.value)}
                 placeholder="Ej. Mantenimiento Preventivo"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -167,7 +179,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                 value={referencia}
                 onChange={(e) => setReferencia(e.target.value)}
                 placeholder="Ej. CONTRATO N° 004-2023-CMAC-T"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
           </div>
@@ -191,7 +203,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                     value={laptop_modelo}
                     onChange={(e) => setLaptopModelo(e.target.value)}
                     placeholder="Ej. Lenovo ThinkPad L14 Gen 4"
-                    className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
+                    className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
                   />
                 </div>
 
@@ -203,7 +215,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                     value={laptop_serie}
                     onChange={(e) => setLaptopSerie(e.target.value)}
                     placeholder="Ej. PF4AK39M"
-                    className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
+                    className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
                   />
                 </div>
 
@@ -215,7 +227,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
                     value={laptop_hostname}
                     onChange={(e) => setLaptopHostname(e.target.value)}
                     placeholder="Ej. LAP-HR-04"
-                    className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase text-zinc-300"
+                    className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase text-zinc-300"
                   />
                 </div>
               </div>
@@ -256,7 +268,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
               </div>
             </div>
 
-            <div className="bg-[#14b8a6]/5 rounded-lg border border-[#14b8a6]/15 p-3.5 mt-4 text-center">
+            <div className="bg-[#14b8a6]/5 rounded-lg border border-[#14b8a6]/15 p-3.5 mt-6 text-center">
               <span className="text-[10px] text-teal-300 font-bold uppercase tracking-wider">Certificado de Soporte TI</span>
             </div>
           </section>
@@ -277,7 +289,7 @@ export const MantLaptopForm: React.FC<MantLaptopFormProps> = ({
           <button
             type="submit"
             disabled={isGenerating}
-            className={`flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold tracking-wide transition-all duration-300 w-full sm:w-auto text-sm cursor-pointer shadow-lg uppercase ${
+            className={`flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold tracking-wide transition-all duration-300 w-full sm:w-auto text-base sm:text-sm cursor-pointer shadow-lg uppercase min-h-[48px] sm:min-h-0 ${
               isGenerating
                 ? "bg-[#14b8a6]/50 text-[#042f2e]/60 border border-[#14b8a6]/20 cursor-not-allowed"
                 : "bg-[#14b8a6] text-[#042f2e] hover:bg-teal-400 hover:-translate-y-0.5 shadow-[#14b8a6]/20 active:translate-y-0"

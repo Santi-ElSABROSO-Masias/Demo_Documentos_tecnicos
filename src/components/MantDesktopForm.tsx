@@ -12,7 +12,8 @@ import {
   Award,
   Cpu,
   Keyboard,
-  MousePointer
+  MousePointer,
+  ArrowLeft
 } from "lucide-react";
 
 interface MantDesktopFormProps {
@@ -59,6 +60,7 @@ interface MantDesktopFormProps {
   isGenerating: boolean;
   onGenerate: (e: React.FormEvent) => void;
   onLoadDemo: () => void;
+  onBack: () => void;
 }
 
 export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
@@ -101,15 +103,25 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
   isGenerating,
   onGenerate,
   onLoadDemo,
+  onBack,
 }) => {
   return (
     <div className="space-y-6">
-      {/* Action utilities bar */}
-      <div className="flex justify-end">
+      {/* Volver button and Action utilities bar */}
+      <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 border-b border-[#27272a]/40 pb-4">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex items-center gap-2 text-sm font-semibold text-zinc-400 hover:text-[#14b8a6] transition cursor-pointer min-h-[44px] px-3 -ml-3 rounded-lg hover:bg-zinc-900/40 w-full sm:w-auto"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Volver al Selector</span>
+        </button>
+        
         <button
           type="button"
           onClick={onLoadDemo}
-          className="text-xs text-teal-400 hover:text-teal-300 font-semibold px-3 py-1.5 bg-[#14b8a6]/5 rounded border border-[#14b8a6]/20 transition flex items-center gap-1 cursor-pointer"
+          className="text-xs text-teal-400 hover:text-teal-300 font-semibold px-3 py-1.5 bg-[#14b8a6]/5 rounded border border-[#14b8a6]/20 transition flex items-center justify-center gap-1 cursor-pointer min-h-[44px] sm:min-h-0 w-full sm:w-auto"
         >
           Cargar Datos Demo de Desktop
         </button>
@@ -123,7 +135,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
             <h2 className="text-xs font-bold tracking-wider text-[#a1a1aa] uppercase">Datos Generales del Mantenimiento (Desktop)</h2>
           </div>
 
-          <div className="grid grid-[#18181b] grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="flex flex-col gap-1.5">
               <label className="text-[10px] font-bold text-[#52525b] tracking-widest uppercase flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5" />
@@ -135,7 +147,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={sede}
                 onChange={(e) => setSede(e.target.value)}
                 placeholder="Ej. TRUJILLO CENTRO"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -149,7 +161,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 required
                 value={fecha}
                 onChange={(e) => setFecha(e.target.value)}
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
               />
             </div>
 
@@ -164,7 +176,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
                 placeholder="Ej. CREDITOS, CAJA CENTRAL..."
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -179,7 +191,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={usuario}
                 onChange={(e) => setUsuario(e.target.value)}
                 placeholder="Ej. MARIA CARMEN ROJAS"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -194,7 +206,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={motivo}
                 onChange={(e) => setMotivo(e.target.value)}
                 placeholder="Ej. Mantenimiento Preventivo"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
 
@@ -209,14 +221,14 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={referencia}
                 onChange={(e) => setReferencia(e.target.value)}
                 placeholder="Ej. CONTRATO N° 004-2023-CMAC-T"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition"
               />
             </div>
           </div>
         </section>
 
         {/* Section 2: Detailed Hardware Configuration (CPU + Periféricos) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* CPU Setup Block */}
           <section className="bg-[#18181b] rounded-xl border border-[#27272a] p-6 shadow-xl space-y-4">
             <div className="flex items-center gap-2 border-b border-[#27272a] pb-4 mb-2">
@@ -232,11 +244,11 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={cpu_modelo}
                 onChange={(e) => setCpuModelo(e.target.value)}
                 placeholder="Ej. ThinkCentre M70s Core i5 12va"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">N° Serie de CPU</label>
                 <input
@@ -245,7 +257,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   value={cpu_serie}
                   onChange={(e) => setCpuSerie(e.target.value)}
                   placeholder="Ej. S4KP329F"
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
                 />
               </div>
 
@@ -257,7 +269,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   value={cpu_hostname}
                   onChange={(e) => setCpuHostname(e.target.value)}
                   placeholder="Ej. PC-CRED-12"
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-zinc-300 placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-zinc-300 placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
                 />
               </div>
             </div>
@@ -270,7 +282,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
               <h2 className="text-sm font-bold tracking-wider text-[#a1a1aa] uppercase">Pantalla / Monitor</h2>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">Marca</label>
                 <input
@@ -278,10 +290,10 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   required
                   value={monitor_marca}
                   onChange={(e) => setMonitorMarca(e.target.value)}
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
                 />
               </div>
-              <div className="flex flex-col gap-1.5 col-span-2">
+              <div className="flex flex-col gap-1.5 sm:col-span-2">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">Modelo de Monitor</label>
                 <input
                   type="text"
@@ -289,7 +301,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   value={monitor_modelo}
                   onChange={(e) => setMonitorModelo(e.target.value)}
                   placeholder="Ej. ThinkVision E22-28"
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
                 />
               </div>
             </div>
@@ -302,7 +314,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={monitor_serie}
                 onChange={(e) => setMonitorSerie(e.target.value)}
                 placeholder="Ej. VYF37391"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
               />
             </div>
           </section>
@@ -314,7 +326,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
               <h2 className="text-sm font-bold tracking-wider text-[#a1a1aa] uppercase">Teclado Corporativo</h2>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">Marca</label>
                 <input
@@ -322,10 +334,10 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   required
                   value={teclado_marca}
                   onChange={(e) => setTecladoMarca(e.target.value)}
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
                 />
               </div>
-              <div className="flex flex-col gap-1.5 col-span-2">
+              <div className="flex flex-col gap-1.5 sm:col-span-2">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">Modelo Teclado</label>
                 <input
                   type="text"
@@ -333,7 +345,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   value={teclado_modelo}
                   onChange={(e) => setTecladoModelo(e.target.value)}
                   placeholder="Ej. Preferred Pro II"
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
                 />
               </div>
             </div>
@@ -346,7 +358,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={teclado_serie}
                 onChange={(e) => setTecladoSerie(e.target.value)}
                 placeholder="Ej. SN-TECLA-4932"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
               />
             </div>
           </section>
@@ -358,7 +370,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
               <h2 className="text-sm font-bold tracking-wider text-[#a1a1aa] uppercase">Mouse Óptico</h2>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">Marca</label>
                 <input
@@ -366,10 +378,10 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   required
                   value={mouse_marca}
                   onChange={(e) => setMouseMarca(e.target.value)}
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] outline-none transition"
                 />
               </div>
-              <div className="flex flex-col gap-1.5 col-span-2">
+              <div className="flex flex-col gap-1.5 sm:col-span-2">
                 <label className="text-[10px] font-bold text-[#71717a] tracking-widest uppercase">Modelo Mouse</label>
                 <input
                   type="text"
@@ -377,7 +389,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                   value={mouse_modelo}
                   onChange={(e) => setMouseModelo(e.target.value)}
                   placeholder="Ej. Lenovo USB Optical Mouse"
-                  className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
+                  className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#e2e8f0] placeholder-[#52525b] outline-none transition font-medium"
                 />
               </div>
             </div>
@@ -390,7 +402,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
                 value={mouse_serie}
                 onChange={(e) => setMouseSerie(e.target.value)}
                 placeholder="Ej. SN-MOUSE-9938"
-                className="bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
+                className="w-full bg-[#09090b] border border-[#27272a] focus:border-[#14b8a6] text-sm rounded-lg px-3.5 py-2.5 text-[#2dd4bf] placeholder-[#52525b] outline-none transition font-mono font-semibold uppercase"
               />
             </div>
           </section>
@@ -411,7 +423,7 @@ export const MantDesktopForm: React.FC<MantDesktopFormProps> = ({
           <button
             type="submit"
             disabled={isGenerating}
-            className={`flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold tracking-wide transition-all duration-300 w-full sm:w-auto text-sm cursor-pointer shadow-lg uppercase ${
+            className={`flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold tracking-wide transition-all duration-300 w-full sm:w-auto text-base sm:text-sm cursor-pointer shadow-lg uppercase min-h-[48px] sm:min-h-0 ${
               isGenerating
                 ? "bg-[#14b8a6]/50 text-[#042f2e]/60 border border-[#14b8a6]/20 cursor-not-allowed"
                 : "bg-[#14b8a6] text-[#042f2e] hover:bg-teal-400 hover:-translate-y-0.5 shadow-[#14b8a6]/20 active:translate-y-0"
